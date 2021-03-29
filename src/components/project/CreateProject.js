@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {createProject} from "../../store/actions/projectAction";
+import {createProject, getProjects, deleteProject} from "../../store/actions/projectAction";
 
 class CreateProject extends Component {
     state = {
@@ -15,6 +15,11 @@ class CreateProject extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.createProject(this.state)
+    }
+
+
+    handleDelete = (e) => {
+        this.props.deleteProject()
     }
 
     render() {
@@ -42,8 +47,12 @@ class CreateProject extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         createProject: (project) => {
-            dispatch(createProject(project))
-        }
+            dispatch(createProject(project));
+        },
+
+        deleteProject: () => {
+            dispatch(deleteProject());
+        },
     }
 
 }

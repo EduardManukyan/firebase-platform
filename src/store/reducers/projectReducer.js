@@ -1,19 +1,11 @@
-const initState = {
-    projects: [
-        {id: '1', title: 'find', content: 'text'},
-        {id: '2', title: 'all the stars', content: 'text'},
-        {id: '3', title: 'test', content: 'text'},
-    ]
-}
-
-const projectReducer = (state = initState, action) => {
-    switch (action.type) {
+const projectReducer = (state = [], {type, payload}) => {
+    switch (type) {
         case "CREATE_PROJECT":
-            console.log("create project", action.projects)
             return state;
-        case "CREATE_PROJECT_ERROR":
-            console.log("create project error", action.err)
-            return state;
+        case "GET_PROJECTS":
+            return [...payload];
+        case "DELETE_PROJECT":
+                return state;
         default:
             return state;
     }

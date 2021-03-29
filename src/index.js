@@ -3,16 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {createStore, applyMiddleware, compose} from "redux";
+import {createStore, applyMiddleware} from "redux";
 import rootReducer from "./store/reducers/rootReducer";
 import {Provider} from "react-redux";
 import thunk from "redux-thunk";
 import {getFirebase, reactReduxFirebase} from "react-redux-firebase";
 import {reduxFirestore, getFirestore} from "redux-firestore";
 import firebase from "./components/firebase/firebase"
+import {composeWithDevTools} from "redux-devtools-extension";
 
 const store = createStore(rootReducer,
-    compose(
+    composeWithDevTools(
         applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore})),
         reduxFirestore(firebase),
     ));
