@@ -1,59 +1,69 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {createProject, getProjects, deleteProject} from "../../store/actions/projectAction";
+import React, {useState} from "react";
+import {useDispatch} from "react-redux";
+import {createProject} from "../../store/actions/projectAction";
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
+import {makeStyles} from '@material-ui/core'
 
-class CreateProject extends Component {
-    state = {
-        title: '',
-        content: ''
+
+const useStyles = makeStyles((theme) => ({
+    button: {
+        margin: theme.spacing(1),
+    },
+}));
+
+export default function CreateProject() {
+    const classes = useStyles();
+
+    const dispatch = useDispatch()
+    const [title, setTitle] = useState("")
+    const [content, setContent] = useState('')
+
+    const titleChangeHandler = (e) => {
+        setTitle(e.target.value)
     }
-    handleChange = (e) => {
-        this.setState(({
-            [e.target.id]: e.target.value
-        }))
+    const contentChangeHandler = (e) => {
+        setContent(e.target.value)
     }
-    handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        this.props.createProject(this.state)
+        console.log(title, content)
+        dispatch(createProject({
+            title,
+            content
+        }))
+
     }
 
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <h5>Create new project</h5>
+                <div>
+                    <label htmlFor="title">Title</label>
+                    <input value={title} type="text" id="title" onChange={titleChangeHandler}/>
+                </div>
+                <div>
+                    <label htmlFor="content">Project Content</label>
+                    <textarea id="content" value={content} onChange={contentChangeHandler}/>
+                </div>
+                <div>
+                    <Button
+                        type={"submit"}
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        className={classes.button}
+                        startIcon={<SaveIcon/>}
+                    >
+                        Save
+                    </Button>
 
-    handleDelete = (e) => {
-        this.props.deleteProject()
-    }
+                </div>
+            </form>
+        </div>
+    )
 
-    render() {
-        return (
-            <div style={{backgroundColor: "red"}}>
-                <form onSubmit={this.handleSubmit}>
-                    <h5>Create new project</h5>
-                    <div>
-                        <label htmlFor="title">Title</label>
-                        <input type="text" id="title" onChange={this.handleChange}/>
-                    </div>
-                    <div>
-                        <label htmlFor="content">Project Content</label>
-                        <textarea id="content" onChange={this.handleChange}/>
-                    </div>
-                    <div>
-                        <button>Create</button>
-                    </div>
-                </form>
-            </div>
-        )
-    }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        createProject: (project) => {
-            dispatch(createProject(project));
-        },
 
-        deleteProject: () => {
-            dispatch(deleteProject());
-        },
-    }
-
-}
-export default connect(null, mapDispatchToProps)(CreateProject)

@@ -5,7 +5,7 @@ const projectReducer = (state = [], {type, payload}) => {
         case "GET_PROJECTS":
             return [...payload];
         case "DELETE_PROJECT":
-                return state;
+            return state;
         default:
             return state;
     }

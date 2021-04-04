@@ -1,7 +1,7 @@
 export const createProject = (projects) => {
-    return (dispatch, getState, { getFirestore}) => {
+    return (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
-        let createAt =new Date().toISOString().slice(0,10);
+        let createAt = new Date().toISOString().slice(0, 10);
         firestore.collection('projects').add({
             ...projects,
             authorId: Math.random(),
@@ -16,7 +16,7 @@ export const createProject = (projects) => {
 
 
 export const getProjects = () => {
-    return (dispatch, getState, { getFirestore}) => {
+    return (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
         firestore.collection('projects').get().then((res) => {
             const data = [];
@@ -25,8 +25,8 @@ export const getProjects = () => {
             })
             console.log(data)
             dispatch({type: 'GET_PROJECTS', payload: data});
-        }).catch((err)=>{
-            dispatch({type:"CREATE_PROJECT_ERROR",err})
+        }).catch((err) => {
+            dispatch({type: "CREATE_PROJECT_ERROR", err})
         })
     }
 };
@@ -35,9 +35,9 @@ export const deleteProject = (id) => {
     return (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
         firestore.collection('projects').doc(id).delete().then(() => {
-            dispatch (getProjects())
-        }).catch((err)=>{
-            dispatch({type:"CREATE_PROJECT_ERROR",err})
+            dispatch(getProjects())
+        }).catch((err) => {
+            dispatch({type: "CREATE_PROJECT_ERROR", err})
         })
     }
 };
